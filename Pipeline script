@@ -1,0 +1,25 @@
+node {
+   
+   env.BUILD_DIR = "/root/build-workspace"
+   env.MODULE = "springboot-web-demo"
+   env.HOST = "springboot.mooc.com" 
+   
+   def mvnHome
+   stage('Preparation') { // for display purposes
+        git 'https://gitee.com/ak161/demo.git'
+   }
+
+   stage('Maven Build') {
+      sh "mvn -pl ${MODULE} -am clean package"
+   }
+   
+   stage('Build Image') {
+      sh "/root/script/build-image-web.sh"
+   }
+      
+   stage('Deploy') {
+       sh "/root/script/deploy.sh"
+     
+   }
+   
+}
